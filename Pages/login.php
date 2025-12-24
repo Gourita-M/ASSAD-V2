@@ -1,5 +1,8 @@
 <?php
- 
+  $error = "";
+
+  include "./Classes.php";
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">

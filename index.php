@@ -1,6 +1,6 @@
 <?php 
+include "./Pages/Classes.php";
    session_start();
-   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,9 +40,9 @@
                     }
                     else {
                         echo '
-                            <a href="./Pages/login.php" class="loginbtn bg-yellow-400 text-green-900 px-4 py-2 rounded font-semibold" >
+                            <button id="log_regis" class="loginbtn bg-yellow-400 text-green-900 px-4 py-2 rounded font-semibold" >
                                 Login / Register
-                            </a>
+                            </button>
                         ';
                     }
                 ?>
@@ -51,6 +51,67 @@
         </div>
     </header>
  
+    <!-- login -->
+    <section>
+               
+        <div id="loginPopup"
+            class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+
+        <div class="bg-white w-full max-w-md p-8 rounded-3xl shadow-2xl relative">
+
+            <button
+            id="closeLogin"
+            class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
+            &times;
+            </button>
+
+            <h3 class="text-3xl font-extrabold mb-6 text-center text-green-900">
+            Login
+            </h3>
+
+            <form method="POST" class="space-y-4">
+
+            <input 
+                name="email"
+                type="email"
+                placeholder="Email address"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+                required
+            >
+
+            <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+                required
+            >
+
+            <button
+                name="login"
+                type="submit"
+                class="w-full bg-green-800 text-white py-3 rounded-xl hover:bg-green-900 transition font-semibold tracking-wide"
+            >
+                Login
+            </button>
+
+            </form>
+
+            <?php 
+            echo "<br><div class='text-center text-red-600'>{$error}</div>";
+            ?>
+
+            <div class="text-sm text-center text-gray-600 mt-6">
+            Don’t have an account?
+            <a href="./Register.php" class="text-green-700 font-semibold hover:underline">
+                Register
+            </a>
+            </div>
+
+        </div>
+        </div>
+
+    </section>
     <section class="relative bg-[url('https://images.unsplash.com/photo-1546182990-dffeafbe841d')] bg-cover bg-center h-[80vh]">
         <div class="absolute inset-0 bg-black/60"></div>
 
@@ -91,14 +152,13 @@
         </div>
     </section>
 
-    
     <section class="p-6">
     <h2 class="text-lg font-semibold mb-2">Filters</h2>
     <form id="formm" method="POST" class="flex gap-4">
       <select name="habittt" class="p-2 border rounded">
         <option value="">All Habitats</option>
-        <?php foreach($resul as $res){
-          $habii = $res['nom_habi'];
+        <?php while($result = $filter->fetch()){
+          $habii = $result['nom_habi'];
           echo "<option value='$habii'>$habii</option>";
         }
         ?>
@@ -117,7 +177,7 @@
     if(isset($_POST['filterr'])){
       $habiii = $_POST['habittt'];
       $type = $_POST['type'];
-      $allhabi = "SELECT an_id,
+        $stmt = $conn->prepare("SELECT an_id,
              ani_nom,
              alimentation,
              an_image,
@@ -125,15 +185,17 @@
              paysorigine
              FROM animaux , habitats 
              WHERE id_habitat = id_habi  
-             and nom_habi like '%$habiii%'
-             and alimentation like '%$type%'";
-        $fil = $conn->query($allhabi);
-           foreach($fil as $fii){
-               addanimals($fii);
-           };
+             and nom_habi like :habiii
+             and alimentation like :type");
+        $stmt->execute(['habiii' => "%$habiii%",
+                        'type' => "%$type%"]);
+            while($list = $stmt->fetch()){
+            addanimals($list);
+        }
+      
     }
     else{
-      $allhabi = "SELECT an_id,
+        $stmt = $conn->prepare("SELECT an_id,
              ani_nom,
              alimentation,
              an_image,
@@ -142,11 +204,12 @@
              FROM animaux , habitats 
              WHERE id_habitat = id_habi 
              and nom_habi like '%'
-             and alimentation like '%'";
-        $fil = $conn->query($allhabi);
-           foreach($fil as $fii){
-               addanimals($fii);
-           };
+             and alimentation like '%'");
+        $stmt->execute();
+        
+        while($list = $stmt->fetch()){
+            addanimals($list);
+        }
     }
     ?>
 </section>
@@ -178,7 +241,7 @@
     </section>
 
     <?php include "./Pages/Footer.php"; ?>
- 
+<script src="./app.js"></script>
 </body>
 
 </html>

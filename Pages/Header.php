@@ -15,7 +15,7 @@
                         $name = $_SESSION['username'];
                         echo '
                             <span class="font-semibold text-green-300">
-                                Welcome z'.$name.'
+                                Welcome '.$name.'
                             </span>
                             <a href="./Pages/logout.php" class="bg-red-600 text-white px-4 py-2 rounded-lg">
                                 Logout

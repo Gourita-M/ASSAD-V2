@@ -1,5 +1,6 @@
 <?php
- 
+ include "./Classes.php";
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +53,7 @@
       </select>
 
       <button
-      name="subm"
+      name="Register"
         type="submit"
         class="w-full bg-green-800 text-white py-3 rounded-xl hover:bg-green-900 transition font-semibold tracking-wide"
       >
