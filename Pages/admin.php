@@ -261,7 +261,7 @@
         </thead>
         <tbody>
           <?php 
-              foreach($animresult as $ani){
+              while($ani = $animals->fetch()){
                 echo "
                    <tr class='hover:bg-yellow-50'>
                     <td class='border border-gray-300 px-4 py-2'>{$ani['an_id']}</td>

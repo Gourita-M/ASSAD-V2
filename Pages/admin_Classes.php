@@ -35,6 +35,12 @@ class admin{
         $stmt = $this->conn->query($sql);
         return $stmt;
     }
+
+    public function showanimals(){
+        $sql = "SELECT * FROM animaux";
+        $stmt = $this->conn->query($sql);
+        return $stmt;
+    }
 }
 
 $admin = new admin($conn);
@@ -53,4 +59,5 @@ $admin->addanimal($name, $espece, $alimentation, $image, $country, $idhabi, $des
 
 $showall = $admin->showusers();
 $showhabitats = $admin->showhabitats();
+$animals = $admin->showanimals();
 ?>
