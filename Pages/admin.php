@@ -13,106 +13,190 @@
 <body class="bg-gray-100 min-h-screen font-sans">
   <?php
    include "./Header.php"
-
-
   ?>
   <section>
-   
-<div id="addAnimalPopup"
-     class="fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50 ">
 
-  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg relative">
+    <div id="habitatPopup"
+        class="fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50 ">
 
-    <button
-      id="closeAddAnimal"
-      class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
-      &times;
-    </button>
+      <div class="bg-white w-full max-w-5xl p-6 rounded-2xl shadow-2xl relative overflow-y-auto max-h-[90vh]">
 
-    <h2 class="text-2xl font-bold mb-6 text-center">
-      Add New Animal
-    </h2>
-
-    <form method="POST" class="space-y-4">
-
-      <div>
-        <label class="block mb-1 font-semibold">Animal Name</label>
-        <input type="text" name="addname"
-               class="w-full border px-3 py-2 rounded"
-               required>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Espèce</label>
-        <input type="text" name="espece"
-               class="w-full border px-3 py-2 rounded"
-               required>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Country</label>
-        <input type="text" name="Country"
-               class="w-full border px-3 py-2 rounded"
-               required>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Food Type</label>
-        <select name="addfood"
-                class="w-full border px-3 py-2 rounded">
-          <option value="Carnivore">Carnivore</option>
-          <option value="Herbivore">Herbivore</option>
-          <option value="Omnivore">Omnivore</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Image URL</label>
-        <input type="text" name="addimage"
-               class="w-full border px-3 py-2 rounded"
-               required>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Habitat</label>
-        <select name="addhabitat"
-                class="w-full border px-3 py-2 rounded"
-                required>
-          <?php 
-            foreach($resul as $res){
-              $habii = $res['nom_habi'];
-              $habiid = $res['id_habi'];
-              echo "<option value='$habiid'>$habii</option>";
-            }
-          ?>
-          <option value='1'>habii</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold">Description</label>
-        <input type="text" name="Description"
-               class="w-full border px-3 py-2 rounded"
-               required>
-      </div>
-
-      <div class="flex justify-end gap-3 pt-4">
-        <button 
-                id="cancelAddAnimal"
-                class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-          Cancel
+        <button
+          id="closeHabitatPopup"
+          class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
+          &times;
         </button>
 
-        <button type="submit"
-                name="adde"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Add
-        </button>
-      </div>
+        <h1 class="text-center mb-6 text-2xl font-semibold text-gray-800">
+          Add Habitat & Show Existing Habitats
+        </h1>
 
-    </form>
-  </div>
-</div>
+        <section class="flex flex-col gap-6">
+
+          <form method="POST" class="bg-gray-50 p-5 rounded-2xl shadow-sm">
+            <h2 class="text-lg text-center font-medium mb-4">
+              Add a new habitat
+            </h2>
+
+            <label class="block mb-2 text-sm text-gray-600">
+              Habitat name
+            </label>
+            <input
+              name="habi"
+              required
+              type="text"
+              placeholder="e.g. Savannah"
+              class="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300"
+            />
+
+            <label class="block mb-2 text-sm text-gray-600">
+              ClimatType
+            </label>
+            <input
+              name="type"
+              type="text"
+              placeholder="e.g. Froid"
+              class="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300"
+            />
+
+            <label class="block mb-2 text-sm text-gray-600">
+              Zoo Zone
+            </label>
+            <input
+              name="zone"
+              type="text"
+              placeholder="e.g. Zone Ouest"
+              class="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300"
+            />
+
+            <label class="block mb-2 text-sm text-gray-600">
+              Description
+            </label>
+            <input
+              name="descri"
+              type="text"
+              placeholder="e.g. Hot grassland area"
+              class="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300"
+            />
+
+            <div class="flex items-center gap-3">
+              <button
+                type="submit"
+                name="subhabi"
+                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                Add Habitat
+              </button>
+
+              <button
+                type="button"
+                id="cancelHabitat"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                Cancel
+              </button>
+            </div>
+
+            <p id="formMsg" class="mt-3 text-sm text-gray-500"></p>
+          </form>
+        </section>
+      </div>
+    </div>
+
+
+    <div id="addAnimalPopup"
+        class="fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50 ">
+
+      <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg relative">
+
+        <button
+          id="closeAddAnimal"
+          class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
+          &times;
+        </button>
+
+        <h2 class="text-2xl font-bold mb-6 text-center">
+          Add New Animal
+        </h2>
+
+        <form method="POST" class="space-y-4">
+
+          <div>
+            <label class="block mb-1 font-semibold">Animal Name</label>
+            <input type="text" name="addname"
+                  class="w-full border px-3 py-2 rounded"
+                  required>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Espèce</label>
+            <input type="text" name="espece"
+                  class="w-full border px-3 py-2 rounded"
+                  required>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Country</label>
+            <input type="text" name="Country"
+                  class="w-full border px-3 py-2 rounded"
+                  required>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Food Type</label>
+            <select name="addfood"
+                    class="w-full border px-3 py-2 rounded">
+              <option value="Carnivore">Carnivore</option>
+              <option value="Herbivore">Herbivore</option>
+              <option value="Omnivore">Omnivore</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Image URL</label>
+            <input type="text" name="addimage"
+                  class="w-full border px-3 py-2 rounded"
+                  required>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Habitat</label>
+            <select name="addhabitat"
+                    class="w-full border px-3 py-2 rounded"
+                    required>
+              <?php 
+                foreach($resul as $res){
+                  $habii = $res['nom_habi'];
+                  $habiid = $res['id_habi'];
+                  echo "<option value='$habiid'>$habii</option>";
+                }
+              ?>
+              <option value='1'>habii</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold">Description</label>
+            <input type="text" name="Description"
+                  class="w-full border px-3 py-2 rounded"
+                  required>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4">
+            <button 
+                    id="cancelAddAnimal"
+                    class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+              Cancel
+            </button>
+
+            <button type="submit"
+                    name="adde"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Add
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
 
   </section>
   <main class="p-6 max-w-7xl mx-auto">
@@ -127,7 +211,7 @@
               Add an Animal
             </button>
   
-            <button class="w-full bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600 transition">
+            <button id="addhabitat" class="w-full bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600 transition">
               Add a Habitat
             </button>
 
@@ -312,6 +396,24 @@ closeAddAnimal.addEventListener('click', ()=> {
 cancelAddAnimal.addEventListener('click', ()=> {
     addAnimalPopup.classList.add('hidden');
 })
+
+// habitat popup
+
+const habitatPopup = document.getElementById('habitatPopup');
+const addhabitat = document.getElementById('addhabitat');
+const closeHabitatPopup = document.getElementById('closeHabitatPopup');
+const cancelHabitat = document.getElementById('cancelHabitat');
+
+addhabitat.addEventListener('click', ()=> {
+  habitatPopup.classList.remove('hidden')
+})
+closeHabitatPopup.addEventListener('click', ()=> {
+  habitatPopup.classList.add('hidden')
+})
+cancelHabitat.addEventListener('click', ()=> {
+  habitatPopup.classList.add('hidden')
+})
+
 </script>
 </body>
 </html>

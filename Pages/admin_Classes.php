@@ -24,6 +24,11 @@ class admin{
         ]);
     }
 
+    public function addnewhabi($habitatname, $habitatdescription){
+        $sql = "INSERT INTO habitats(nom_habi, typeclimat, habi_description, zonezoo)
+                VALUES ()";
+    }
+
     public function showusers(){
         $sql = "SELECT * FROM utilisateurs";
         $stmt = $this->conn->query($sql);
