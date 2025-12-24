@@ -1,5 +1,6 @@
 <?php 
-include "./Pages/Classes.php";
+include "./Pages/connection.php";
+include "./Pages/User_class.php";
    session_start();
 ?>
 <!DOCTYPE html>
@@ -97,16 +98,88 @@ include "./Pages/Classes.php";
 
             </form>
 
-            <?php 
-            echo "<br><div class='text-center text-red-600'>{$error}</div>";
-            ?>
-
             <div class="text-sm text-center text-gray-600 mt-6">
             Don’t have an account?
-            <a href="./Register.php" class="text-green-700 font-semibold hover:underline">
+            <button id="regis" class="text-green-700 font-semibold hover:underline">
                 Register
-            </a>
+                </button>
             </div>
+
+        </div>
+        </div>
+
+         <!-- register -->
+        <div id="registerPopup"
+            class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+
+        <div class="bg-white w-full max-w-md p-8 rounded-3xl shadow-2xl relative">
+
+            <button
+            id="closeRegister"
+            class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
+            &times;
+            </button>
+
+            <h3 class="text-3xl font-extrabold mb-6 text-center text-green-900">
+            Create Account
+            </h3>
+
+            <form method="POST" class="space-y-4">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+                required
+            >
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+                required
+            >
+
+            <select
+                name="role"
+                class="w-full border border-gray-300 px-4 py-3 rounded-xl focus:ring-2 focus:ring-green-600 focus:outline-none"
+            >
+                <option value="visitor">Visitor</option>
+                <option value="guide">Guide</option>
+            </select>
+
+            <button
+                name="Register"
+                type="submit"
+                class="w-full bg-green-800 text-white py-3 rounded-xl hover:bg-green-900 transition font-semibold tracking-wide"
+            >
+                Register
+            </button>
+
+            </form>
+
+            <p class="text-sm text-center text-gray-600 mt-6">
+            Already have an account?
+            <button
+                id="openLoginFromRegister"
+                class="text-green-700 font-semibold hover:underline">
+                Login
+                </button>
+            </p>
+
+            <p class="text-xs text-center text-gray-500 mt-3">
+            Guide accounts require admin approval
+            </p>
 
         </div>
         </div>

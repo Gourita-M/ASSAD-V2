@@ -1,22 +1,5 @@
 <?php
 
-class Database {
-    public  $conn;
-
-    public function connect() {
-        $this->conn = new PDO('mysql:host=127.0.0.1;dbname=ASSAD_CAN', 'root', '');
-        return $this->conn;
-    }
-}
-
-// filter dyal animals in Home page
-
-$test = new Database();
-$conn = $test->connect();
-$filter = $conn->prepare("SELECT * FROM habitats");
-$filter->execute();
-
-
 class User {
     private $conn;
 
@@ -45,11 +28,10 @@ class User {
             session_start();
             $_SESSION['username'] = $user['nom_user'];
             $_SESSION['role'] = $user['user_role'];
-            header("Location: ../index.php");
+            header("Location: ./index.php");
             return true;
         }else{
-            echo "<script>alert('Your Password or Email is not Correct')</script>";
-        return false;
+            return false;
         }
     }
 }
@@ -80,3 +62,5 @@ class User {
     $Register_login->login($email, $password);
 
   }
+
+  ?>

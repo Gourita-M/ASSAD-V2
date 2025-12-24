@@ -1,5 +1,6 @@
 <?php 
-    
+    include "./connection.php";
+    include "./admin_Classes.php";
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth" >
@@ -12,30 +13,126 @@
 <body class="bg-gray-100 min-h-screen font-sans">
   <?php
    include "./Header.php"
-  ?>
 
+
+  ?>
+  <section>
+   
+<div id="addAnimalPopup"
+     class="fixed hidden inset-0 bg-black/70 flex items-center justify-center z-50 ">
+
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg relative">
+
+    <button
+      id="closeAddAnimal"
+      class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold">
+      &times;
+    </button>
+
+    <h2 class="text-2xl font-bold mb-6 text-center">
+      Add New Animal
+    </h2>
+
+    <form method="POST" class="space-y-4">
+
+      <div>
+        <label class="block mb-1 font-semibold">Animal Name</label>
+        <input type="text" name="addname"
+               class="w-full border px-3 py-2 rounded"
+               required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Espèce</label>
+        <input type="text" name="espece"
+               class="w-full border px-3 py-2 rounded"
+               required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Country</label>
+        <input type="text" name="Country"
+               class="w-full border px-3 py-2 rounded"
+               required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Food Type</label>
+        <select name="addfood"
+                class="w-full border px-3 py-2 rounded">
+          <option value="Carnivore">Carnivore</option>
+          <option value="Herbivore">Herbivore</option>
+          <option value="Omnivore">Omnivore</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Image URL</label>
+        <input type="text" name="addimage"
+               class="w-full border px-3 py-2 rounded"
+               required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Habitat</label>
+        <select name="addhabitat"
+                class="w-full border px-3 py-2 rounded"
+                required>
+          <?php 
+            foreach($resul as $res){
+              $habii = $res['nom_habi'];
+              $habiid = $res['id_habi'];
+              echo "<option value='$habiid'>$habii</option>";
+            }
+          ?>
+          <option value='1'>habii</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Description</label>
+        <input type="text" name="Description"
+               class="w-full border px-3 py-2 rounded"
+               required>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4">
+        <button 
+                id="cancelAddAnimal"
+                class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+          Cancel
+        </button>
+
+        <button type="submit"
+                name="adde"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Add
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+  </section>
   <main class="p-6 max-w-7xl mx-auto">
     <h2 class="text-3xl font-semibold mb-6 text-green-900">Administrator Dashboard</h2>
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
       <section class="bg-white rounded shadow p-5">
         <h3 class="text-center text-xl font-semibold mb-4 border-b border-green-200 pb-2 text-green-800">Animal/Habitat Management</h3>
-        <ul class="space-y-3 text-gray-700">
-          <li>
-            <a href="./add_animals.php">
-            <button class="w-full bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600 transition">
+        <div class="space-y-3 text-gray-700">
+          
+            <button id="adddanimal" class="w-full bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600 transition">
               Add an Animal
             </button>
-          </a>
-          </li>
-          <li>
-            <a href="./add_habitat.php">
+  
             <button class="w-full bg-yellow-500 text-white rounded px-4 py-2 hover:bg-yellow-600 transition">
               Add a Habitat
             </button>
-            </a>
-          </li>
-        </ul>
+
+
+          </div>
       </section>
 
     </div>
@@ -61,7 +158,7 @@
         <tbody>
           <?php 
            //id_user, nom_user, email, user_role, user_Status
-            foreach($userlist as $uslis){
+            while($uslis = $showall->fetch()){
               echo "
                 <tr class='hover:bg-green-50'>
                   <td class='border border-gray-300 px-4 py-2'>{$uslis['id_user']}</td>
@@ -123,7 +220,7 @@
         </thead>
         <tbody>
           <?php 
-             foreach($habitatresult as $habi){
+             while($habi = $showhabitats->fetch()){
               echo "
                   <tr class='hover:bg-yellow-50'>
                     <td class='border border-gray-300 px-4 py-2'>{$habi['id_habi']}</td>
@@ -196,7 +293,26 @@
   <?php
    include "./Footer.php"
   ?>
+<script>
 
+const addAnimalPopup = document.getElementById('addAnimalPopup'); // popup dyal add animal
+const adddanimal = document.getElementById('adddanimal');
+const closeAddAnimal = document.getElementById('closeAddAnimal');
+const cancelAddAnimal = document.getElementById('cancelAddAnimal');
+
+adddanimal.addEventListener('click', () => {
+    console.log('hey')
+    addAnimalPopup.classList.remove('hidden');
+})
+
+closeAddAnimal.addEventListener('click', ()=> {
+    addAnimalPopup.classList.add('hidden');
+})
+
+cancelAddAnimal.addEventListener('click', ()=> {
+    addAnimalPopup.classList.add('hidden');
+})
+</script>
 </body>
 </html>
 
