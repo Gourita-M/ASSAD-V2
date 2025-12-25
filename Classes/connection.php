@@ -13,6 +13,7 @@ class Database {
 
 $test = new Database();
 $conn = $test->connect();
+
 $filter = $conn->prepare("SELECT * FROM habitats");
 $filter->execute();
 

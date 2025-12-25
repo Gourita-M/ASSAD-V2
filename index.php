@@ -1,7 +1,8 @@
 <?php 
-include "./Pages/connection.php";
-include "./Pages/User_class.php";
-   session_start();
+session_start();
+include "./Classes/connection.php";
+include "./Classes/User_class.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,36 +20,43 @@ include "./Pages/User_class.php";
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
             <a href="./index.php" class="text-2xl font-bold tracking-wide">🦁 ASSAD Virtual Zoo</a>
 
-            <nav class="space-x-6 hidden md:block">
+            <nav class="space-x-6 md:block">
                 <?php 
-                    if(isset($_SESSION['role'])){
-                    if($_SESSION['role'] === 'ADMIN' || $_SESSION['role'] === 'Guide'){
-                        echo '<a href="./Pages/DASHBOARD.php" class="hover:text-yellow-300">DashBoard</a>';
+                if (isset($_SESSION['role'])) {
+                    if ($_SESSION['role'] === 'ADMIN' || $_SESSION['role'] === 'Guide') {
+                        echo '<a href="./Pages/DASHBOARD.php" class="hover:text-yellow-300">Dashboard</a>';
                     }
                 }
                 ?>
+
                 <?php 
-                    if(isset($_SESSION['username'])){
-                        $name = $_SESSION['username'];
-                        echo '
-                            <span class="font-semibold text-green-300">
-                                Welcome Back '.$name.'
-                            </span>
-                            <a href="./Pages/logout.php" class="bg-red-600 text-white px-4 py-2 rounded-lg">
+                if (isset($_SESSION['username'])) {
+                    $name = $_SESSION['username'];
+                    echo '
+                    <div class="inline-flex items-center gap-4">
+                        <span class="font-semibold text-green-300">
+                            Welcome Back '.$name.'
+                        </span>
+
+                        <form method="POST" action="" class="inline">
+                            <button type="submit" name="Logout"
+                                class="bg-red-600 text-white px-4 py-2 rounded-lg">
                                 Logout
-                            </a>  
-                        ';
-                    }
-                    else {
-                        echo '
-                            <button id="log_regis" class="loginbtn bg-yellow-400 text-green-900 px-4 py-2 rounded font-semibold" >
-                                Login / Register
                             </button>
-                        ';
-                    }
+                        </form>
+                    </div>
+                    ';
+                } else {
+                    echo '
+                    <button id="log_regis"
+                        class="loginbtn bg-yellow-400 text-green-900 px-4 py-2 rounded font-semibold">
+                        Login / Register
+                    </button>
+                    ';
+                }
                 ?>
-                
             </nav>
+
         </div>
     </header>
  

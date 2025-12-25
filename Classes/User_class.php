@@ -1,13 +1,18 @@
 <?php
-
-class User {
+ 
+class User 
+{
     private $conn;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
-    public function register($name, $email, $password, $role) {
+//register()
+
+    public function register($name, $email, $password, $role)
+    {
         $sql = "INSERT INTO utilisateurs (nom_user, email, motpasse_hash, user_role) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
@@ -17,6 +22,7 @@ class User {
             $role
         ]);
     }
+//login()
 
     public function login($email, $password) {
         $sql = "SELECT * FROM utilisateurs WHERE email = ?";
@@ -25,20 +31,37 @@ class User {
         $user = $stmt->fetch();
 
         if ($user['motpasse_hash'] === md5($password)) {
-            session_start();
+            if($user['user_Status'] === 'inactive'){
+                return 'Your Account is Not active Yet';
+            }
+            else{
             $_SESSION['username'] = $user['nom_user'];
             $_SESSION['role'] = $user['user_role'];
             header("Location: ./index.php");
             return true;
+            }
         }else{
             return false;
         }
     }
+
+//logout()
+
+    public function Logout(){
+
+        
+        session_unset();
+        session_destroy();
+
+        return true;
+    }
+
 }
 
 // dyal Register 
 
   $Register_login = new User($conn);
+
   if(isset($_POST['Register'])){
 
     $username = $_POST['name'];
@@ -47,6 +70,7 @@ class User {
     $userrole = $_POST['role'];
 
 //register($name, $email, $password, $role)
+
     $Register_login->register($username, $useremail, $userpassword, $userrole);
     
     header("Location: ../index.php");
@@ -62,5 +86,13 @@ class User {
     $Register_login->login($email, $password);
 
   }
+
+// logout
+
+  if(isset($_POST['Logout'])){
+    $Register_login->Logout();
+    // header("Location: ../index.php");
+  }
+
 
   ?>

@@ -1,6 +1,5 @@
 <?php 
-    include "./connection.php";
-    include "./admin_Classes.php";
+    include "../Classes/admin_Classes.php";
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth" >
@@ -163,13 +162,13 @@
                     class="w-full border px-3 py-2 rounded"
                     required>
               <?php 
-                foreach($resul as $res){
-                  $habii = $res['nom_habi'];
-                  $habiid = $res['id_habi'];
+                while($optionhabi = $habitatoption->fetch()){
+                  $habii = $optionhabi['nom_habi'];
+                  $habiid = $optionhabi['id_habi'];
                   echo "<option value='$habiid'>$habii</option>";
                 }
               ?>
-              <option value='1'>habii</option>
+
             </select>
           </div>
 
