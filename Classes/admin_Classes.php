@@ -13,6 +13,7 @@ class admin extends User{
     {
         $this->conn = $db;
     }
+
 //activate()
 
     public function activate($userid){
@@ -22,6 +23,7 @@ class admin extends User{
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$userid]);
     }
+
 //deactivate()
 
     public function deactivate($userid){
@@ -49,22 +51,25 @@ class admin extends User{
 
 }
 
+
+//classes
 $admin = new admin($conn);
 $animal = new Animal($conn);
 $habitat = new Habitat($conn);
 
-if(isset($_POST['adde'])){
-    $name = $_POST['addname'];
-    $espece = $_POST['espece'];
-    $alimentation = $_POST['addfood'];
-    $image = $_POST['addimage'];
-    $country = $_POST['Country'];
-    $idhabi = $_POST['addhabitat'];
-    $descriptioncourte = $_POST['Description'];
+    if(isset($_POST['adde'])){
+        $name = $_POST['addname'];
+        $espece = $_POST['espece'];
+        $alimentation = $_POST['addfood'];
+        $image = $_POST['addimage'];
+        $country = $_POST['Country'];
+        $idhabi = $_POST['addhabitat'];
+        $descriptioncourte = $_POST['Description'];
 
-$animal->addanimal($name, $espece, $alimentation, $image, $country, $idhabi, $descriptioncourte);
-
+    $animal->addanimal($name, $espece, $alimentation, $image, $country, $idhabi, $descriptioncourte);
+      $message = "Animal is added ";
     header("Location: ./DASHBOARD.php");
+    
 }
 
 if(isset($_POST['subhabi'])){
@@ -82,4 +87,38 @@ $showall = $admin->showusers();
 $showhabitats = $habitat->showhabitats();
 $habitatoption = $habitat->showhabitats();
 $animals = $animal->showAnimals();
+
+
+//delete animal and show his name
+
+$animalname = $animal->showAnimals();
+
+    if(isset($_POST['confirm'])){
+        $id = $_GET['id'];
+        $animal->deleteAnimal($id);
+
+        header("Location: ./DASHBOARD.php");
+    }
+
+//edit animal and show his info
+
+$editname = $animal->showAnimals();
+$showhabitats = $habitat->showhabitats();
+
+    if(isset($_POST['update'])){
+        
+        $name = $_POST['name'];
+        $espece = $_POST['espece'];
+        $alimentation = $_POST['alimentation'];
+        $description = $_POST['description'];
+        $country = $_POST['country'];
+        $image = $_POST['image'];
+        $habita = $_POST['habita'];
+        $id = $_GET['id'];
+        
+    $animal->updateanimal($name, $espece, $alimentation, $image, $country, $description, $habita, $id);
+    
+        header("Location: ./DASHBOARD.php");
+    }
+
 ?>

@@ -1,5 +1,8 @@
 <?php 
     include "../Classes/admin_Classes.php";
+
+    $message = "";
+
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth" >
@@ -13,6 +16,7 @@
   <?php
    include "./Header.php"
   ?>
+  <?php echo $message; ?>
   <section>
 
     <div id="habitatPopup"

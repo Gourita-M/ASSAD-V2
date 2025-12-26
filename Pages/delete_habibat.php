@@ -1,5 +1,14 @@
 <?php
+  include "../Classes/admin_Classes.php";
 
+  // delete habitat
+
+  $habitat->habitatById($_GET['id']);
+  $habitatname = $habitat->showhabitats();
+  
+  if(isset('confirm')){
+    
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,18 +29,18 @@
   </nav>
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md text-center">
-        <h2 class="text-2xl font-bold mb-4">Delete Animal</h2>
+        <h2 class="text-2xl font-bold mb-4">Delete Habitat</h2>
         <p class="mb-6">Are you sure you want to delete 
             <span class="font-semibold">
             <?php 
-               foreach($habiname as $habi){
-                echo $habi['nom_habi'];
-                };
+               
+                echo $habitat->getName();;
+                
              ?>
             </span>?</p>
         <form method="post" class="flex justify-center gap-4">
             <button type="submit" name="confirm" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">Yes, Delete</button>
-            <a href="./Add_habitat.php" class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">Cancel</a>
+            <a href="./DASHBOARD.php" class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">Cancel</a>
         </form>
     </div>
 </div>

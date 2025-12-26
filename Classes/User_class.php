@@ -1,20 +1,82 @@
 <?php
- 
-class User 
+
+class User
 {
     private $conn;
+
+    private $id;
+    private $name;
+    private $email;
+    private $role;
+    private $status;
 
     public function __construct($db)
     {
         $this->conn = $db;
     }
 
-//register()
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
     public function register($name, $email, $password, $role)
     {
-        $sql = "INSERT INTO utilisateurs (nom_user, email, motpasse_hash, user_role) VALUES (?, ?, ?, ?)";
+        
+        $sqlcheck = "SELECT id_user FROM utilisateurs WHERE email = ? LIMIT 1";
+        $stmtcheck = $this->conn->prepare($sqlcheck);
+        $stmtcheck->execute([$email]);
+
+        if ($stmtcheck->fetch()) {
+            return false;
+        }
+
+        $sql = "INSERT INTO utilisateurs 
+                (nom_user, email, motpasse_hash, user_role, user_Status)
+                VALUES (?, ?, ?, ?, 'inactive')";
+
         $stmt = $this->conn->prepare($sql);
+
         return $stmt->execute([
             $name,
             $email,
@@ -22,77 +84,47 @@ class User
             $role
         ]);
     }
-//login()
 
-    public function login($email, $password) {
-        $sql = "SELECT * FROM utilisateurs WHERE email = ?";
+
+    public function login($email, $password)
+    {
+        $sql = "SELECT * FROM utilisateurs WHERE email = ? ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$email]);
-        $user = $stmt->fetch();
 
-        if ($user['motpasse_hash'] === md5($password)) {
-            if($user['user_Status'] === 'inactive'){
-                return 'Your Account is Not active Yet';
-            }
-            else{
-            $_SESSION['username'] = $user['nom_user'];
-            $_SESSION['role'] = $user['user_role'];
-            header("Location: ./index.php");
-            return true;
-            }
-        }else{
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
             return false;
         }
-    }
 
-//logout()
+        if ($user['motpasse_hash'] !== md5($password)) {
+            return false;
+        }
 
-    public function Logout(){
+        if ($user['user_Status'] === 'inactive') {
+            return 'inactive';
+        }
 
-        
-        session_unset();
-        session_destroy();
+        $this->id = $user['id_user'];
+        $this->setName($user['nom_user']);
+        $this->setEmail($user['email']);
+        $this->setRole($user['user_role']);
+        $this->setStatus($user['user_Status']);
 
         return true;
     }
 
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+        return true;
+    }
 }
 
-// dyal Register 
-
-  $Register_login = new User($conn);
-
-  if(isset($_POST['Register'])){
-
-    $username = $_POST['name'];
-    $useremail = $_POST['email'];
-    $userpassword = $_POST['password'];
-    $userrole = $_POST['role'];
-
-//register($name, $email, $password, $role)
-
-    $Register_login->register($username, $useremail, $userpassword, $userrole);
-    
-    header("Location: ../index.php");
-  }
-
-// Login
-
-  if(isset($_POST['login'])){
-
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $Register_login->login($email, $password);
-
-  }
-
-// logout
-
-  if(isset($_POST['Logout'])){
-    $Register_login->Logout();
-    // header("Location: ../index.php");
-  }
+$user = new User($conn);
 
 
-  ?>
+
+?>

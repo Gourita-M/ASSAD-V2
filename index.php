@@ -1,7 +1,62 @@
 <?php 
-session_start();
+
+    session_start();
+
 include "./Classes/connection.php";
 include "./Classes/User_class.php";
+
+    $error = "";
+
+if (isset($_POST['Register'])) {
+
+    $result = $user->register(
+        $_POST['name'],
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['role']
+    );
+
+    if ($result === true) {
+
+        header("Location: ./index.php");
+        exit;
+
+    } else {
+
+        $error = "Email Already in use";
+    }
+
+}
+
+if (isset($_POST['login'])) {
+
+    $result = $user->login($_POST['email'], $_POST['password']);
+
+    if ($result === true) {
+
+        $_SESSION['username'] = $user->getName();
+        $_SESSION['role']     = $user->getRole();
+
+        header("Location: ./index.php");
+        exit;
+
+    } elseif ($result === 'inactive') {
+
+        $error = "Your account is not active yet";
+
+    } else {
+
+        $error = "Invalid email or password";
+    }
+}
+
+if (isset($_POST['Logout'])) {
+    $user->logout();
+    header("Location: ./index.php");
+    exit;
+}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -15,7 +70,9 @@ include "./Classes/User_class.php";
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-
+    
+        <?php echo htmlspecialchars($error); ?>
+    
     <header class="bg-green-900 text-white">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
             <a href="./index.php" class="text-2xl font-bold tracking-wide">🦁 ASSAD Virtual Zoo</a>

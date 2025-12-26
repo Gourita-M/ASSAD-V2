@@ -30,7 +30,7 @@ class Animal
 
 // update()
 
-    public function updateanimal($name, $espece, $alimentation, $image, $country, $descriptioncourte, $idhabi)
+    public function updateanimal($name, $espece, $alimentation, $image, $country, $descriptioncourte, $idhabi, $id)
     {
         $sql = "UPDATE animaux SET 
                     ani_nom = ?, 
@@ -49,7 +49,8 @@ class Animal
             $image,
             $country,
             $descriptioncourte,
-            $idhabi
+            $idhabi,
+            $id
         ]);
     }
 // delete()
@@ -76,13 +77,5 @@ class Animal
 
 }
 
-//delete animal and show his name
-$animal = new Animal($conn);
-$animalname = $animal->showAnimals();
-    if(isset($_POST['confirm'])){
-        $id = $_GET['id'];
-        $animal->deleteAnimal($id);
 
-        header("Location: ./DASHBOARD.php");
-    }
 ?>
