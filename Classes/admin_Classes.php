@@ -34,7 +34,31 @@ class admin extends User{
         return $stmt->execute([$userid]);
     }
 
-//approveguide()
+//statistics
+
+    public function statistics()
+    {
+        // Animals
+        $sql = "SELECT COUNT(*) AS total_animals FROM animaux";
+        $stmt = $this->conn->query($sql);
+        $animals = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Visits
+        $sql1 = "SELECT COUNT(*) AS total_visits FROM visitesguidees";
+        $stmt1 = $this->conn->query($sql1);
+        $visits = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+        // Reservations
+        $sql2 = "SELECT COUNT(*) AS total_reservations FROM reservations";
+        $stmt2 = $this->conn->query($sql2);
+        $reservations = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+        return [
+            'animals'      => $animals['total_animals'],
+            'visits'       => $visits['total_visits'],
+            'reservations' => $reservations['total_reservations']
+        ];
+    }
 
 //show all users
     public function showusers(){

@@ -1,5 +1,5 @@
 <?php
-
+    include "../Classes/User_class.php";
 ?>
 
 <!DOCTYPE html>
@@ -16,28 +16,6 @@
 <?php include "./Header.php"; ?>
 
 <main class="max-w-7xl mx-auto p-6">
-
-
-  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-
-    <div class="bg-white p-6 rounded-xl shadow">
-      <p class="text-sm text-gray-500">Total Animals</p>
-      <?php echo "<p class='text-3xl font-bold text-green-700'>{$tot['total']}</p>"; ?>
-    </div>
-
-    <div class="bg-white p-6 rounded-xl shadow">
-      <p class="text-sm text-gray-500">Guided Tours</p>
-      <?php echo "<p class='text-3xl font-bold text-green-700'>{$visitota['total']}</p>"; ?>
-    </div>
-
-    <div class="bg-white p-6 rounded-xl shadow">
-      <p class="text-sm text-gray-500">Reservations</p>
-      <?php 
-       echo "<p class='text-3xl font-bold text-green-700'>{$retota['total']}</p>"
-      ?>
-      
-    </div>
-  </section>
 
   <section class="bg-white rounded-xl shadow p-6 mb-10">
     <h2 class="text-2xl font-semibold text-green-800 mb-4">

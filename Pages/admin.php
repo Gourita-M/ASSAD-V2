@@ -3,6 +3,9 @@
 
     $message = "";
 
+    // total animals
+    $total = $admin->statistics();
+
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth" >
@@ -203,7 +206,27 @@
 
   </section>
   <main class="p-6 max-w-7xl mx-auto">
-    <h2 class="text-3xl font-semibold mb-6 text-green-900">Administrator Dashboard</h2>
+    <h2 class="text-center text-3xl font-semibold mb-6 text-green-900">Administrator Dashboard</h2>
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+     
+    <div class="bg-white p-6 rounded-xl shadow">
+      <p class="text-center text-sm text-gray-500">Total Animals</p><br>
+      <?php echo "<p class='text-center text-3xl font-bold text-green-700'> {$total['animals']} </p>"; ?>
+    </div>
+
+    <div class="bg-white text-center p-6 rounded-xl shadow">
+      <p class="text-sm text-center text-gray-500">Guided Tours</p><br>
+      <?php echo "<p class='text-3xl font-bold text-green-700'> {$total['visits']} </p>"; ?>
+    </div>
+
+    <div class="bg-white p-6 text-center rounded-xl shadow">
+      <p class="text-sm text-gray-500">Reservations</p><br>
+      <?php 
+       echo "<p class='text-3xl font-bold text-green-700'> {$total['reservations']} </p>"
+      ?>
+      
+    </div>
+  </section>
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
       <section class="bg-white rounded shadow p-5">
@@ -228,6 +251,7 @@
 
   <h1 class="text-3xl font-bold mb-8 text-green-900">Admin Dashboard - Users & Animals List</h1>
 
+  
   <section class="mb-12 bg-white rounded shadow p-6">
     <h2 class="text-2xl font-semibold mb-4 text-green-800">Users List</h2>
     <div class="overflow-x-auto">

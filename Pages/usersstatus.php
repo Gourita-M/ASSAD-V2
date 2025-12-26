@@ -1,26 +1,19 @@
 <?php 
-    include "./conn_sql.php";
+
+     include "../Classes/admin_Classes.php";
 
     if(isset($_GET['idon'])){
-        $idon = $_GET['idon'];
-        $sqlon = "UPDATE utilisateurs
-                   SET user_Status = 'active' 
-                   WHERE id_user = $idon";
         
-        $conn->query($sqlon);
+        $admin->activate($_GET['idon']);
+
         header("Location: ./DASHBOARD.php");
-        exit();
+        
     }
 
     if(isset($_GET['idoff'])){
-        $idoff = $_GET['idoff'];
         
-        $sqloff = "UPDATE utilisateurs
-                   SET user_Status = 'inactive' 
-                   WHERE id_user = $idoff";
-        
-        $conn->query($sqloff);
+        $admin->deactivate($_GET['idoff']);
+
         header("Location: ./DASHBOARD.php");
-        exit();
     }
 ?>
