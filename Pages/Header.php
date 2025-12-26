@@ -6,7 +6,7 @@
                 <?php 
                 if (isset($_SESSION['role'])) {
                     if ($_SESSION['role'] === 'ADMIN' || $_SESSION['role'] === 'Guide') {
-                        echo '<a href="./Pages/DASHBOARD.php" class="hover:text-yellow-300">Dashboard</a>';
+                        echo '<a href="./DASHBOARD.php" class="hover:text-yellow-300">Dashboard</a>';
                     }
                 }
                 ?>
@@ -17,7 +17,7 @@
                     echo '
                     <div class="inline-flex items-center gap-4">
                         <span class="font-semibold text-green-300">
-                            Welcome Back '.$name.'
+                            Welcome '.$name.'
                         </span>
 
                         <form method="POST" action="" class="inline">

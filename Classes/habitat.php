@@ -84,7 +84,7 @@ class Habitat
 
     public function habitatById($id)
     {
-        $sql = "SELECT * FROM habitats WHERE id_habi = ? LIMIT 1";
+        $sql = "SELECT * FROM habitats WHERE id_habi = ? ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
 
@@ -102,11 +102,33 @@ class Habitat
         return false;
     }
 
-    //delete habitat 
+    //delete habitat by id
 
-    public function deleteHabitat()
+    public function deleteHabitat($id)
     {
-        $sql = "";
+        $sql = "DELETE FROM habitats WHERE id_habi = ? ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+    }
+
+    //edit habitat
+
+    public function editHabitat($id)
+    {
+        $sql = "UPDATE habitats SET 
+                    nom_habi = ?, 
+                    typeclimat = ?, 
+                    habi_description = ? ,
+                    zonezoo = ? 
+                   WHERE id_habi = ? ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            $this->name,
+            $this->type,
+            $this->description,
+            $this->zone,
+            $id
+        ]);
     }
 }
 

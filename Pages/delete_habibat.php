@@ -1,14 +1,15 @@
 <?php
+  session_start();
   include "../Classes/admin_Classes.php";
 
   // delete habitat
 
   $habitat->habitatById($_GET['id']);
-  $habitatname = $habitat->showhabitats();
   
-  if(isset('confirm')){
-    
+  if(isset($_POST['confirm'])){
+    $habitat->deleteHabitat($habitat->getId());
   }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,14 +20,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <nav class="bg-green-600 text-white p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">Zoo Encyclopedia</h1>
-    <div class="space-x-4">
-      <a href="../index.php" class="bg-white text-green-600 px-3 py-1 rounded">
-        Home
-      </a>
-    </div>
-  </nav>
+    <?php include "./Header.php"; ?>
+
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md text-center">
         <h2 class="text-2xl font-bold mb-4">Delete Habitat</h2>
@@ -34,7 +29,7 @@
             <span class="font-semibold">
             <?php 
                
-                echo $habitat->getName();;
+                echo $habitat->getName();
                 
              ?>
             </span>?</p>
